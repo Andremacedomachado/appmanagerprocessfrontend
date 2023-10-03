@@ -26,7 +26,6 @@ export default async function RootLayout({
                     <LoginModal />
                     <RegisterModal />
                     <NavBar />
-                    {/* <Modal actionLabel='Submit' secondaryActionLabel='Back' isOpen title='Hello world' /> */}
                     <div className="pt-28 overflow-hidden">
                         {children}
                     </div>

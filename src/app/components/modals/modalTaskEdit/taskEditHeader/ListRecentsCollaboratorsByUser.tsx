@@ -1,14 +1,12 @@
 "use client"
 
-import Input from "@/app/components/inputs/Input";
 import ButtonCirclePerson from "./ButtonCirclePerson";
 import ButtonTiggrerShowProfile from "./ButtonTiggrerShowProfile";
-import { useForm } from "react-hook-form";
 import IconAllocated from "./IconAllocated";
 import SwapperLinkedInActivity from "./SwapperLinkedInActivity";
 import useCollaboratorsRecents from "@/app/hooks/useCollaboratorsRecents";
 import { UserInfo } from "@/app/types/UserInfo";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import SearchItemMenuGeneral from "@/app/(pagesRequireAutentication)/[userId]/(dashboard)/userDashboard/v/li/components/menuListGeneral/SearchItemMenuGeneral";
 
 
@@ -49,7 +47,7 @@ interface CollaboradorRecentsProps {
 
 const ListRecentsCollabortorsByUser = () => {
 
-    const { data: collaboratorsRecents, isLoading } = useCollaboratorsRecents()
+    const { data: collaboratorsRecents, isLoading } = useCollaboratorsRecents({ userId: '' })
     const [filteredCollaborators, setFilteredCollaborators] = useState<UserInfo[] | undefined>(collaboratorsRecents)
     const [searchTextInput, setSearchTextInput] = useState<string>('')
 

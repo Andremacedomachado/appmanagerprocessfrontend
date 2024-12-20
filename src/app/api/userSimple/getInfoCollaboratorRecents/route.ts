@@ -12,14 +12,14 @@ export const GetInfoCollaboratorRequestSchema = z.object({
 
 export type GetInfoCollaboratorRequestData = z.infer<typeof GetInfoCollaboratorRequestSchema>
 
-const endPointResource = '/collaboratorsByActivity?'
-const endPointResourceUserInfo = '/user?'
+const endPointResource = '/collaboratorsByActivity'
+const endPointResourceUserInfo = '/user'
 
 const getAllInfoUser = async (collaborators: Collaborator[]) => {
     const collaboratorsWithInfo: UserInfo[] = []
     for (const collaborator of collaborators) {
         const params = new URLSearchParams({ userId: collaborator.user_id }).toString()
-        const infoCurrent = await fetchWrapperSSR<UserInfo>({ method: 'GET', input: `${process.env.URL_API + endPointResourceUserInfo + params}` })
+        const infoCurrent = await fetchWrapperSSR<UserInfo>({ method: 'GET', input: `${process.env.URL_API + endPointResourceUserInfo + '?' + params}` })
         collaboratorsWithInfo.push(infoCurrent)
     }
 
@@ -28,14 +28,14 @@ const getAllInfoUser = async (collaborators: Collaborator[]) => {
 
 export async function GET(req: NextApiRequest) {
     try {
-
-        const urlBackend = PassSearchParamsBetweenRequest(req, GetInfoCollaboratorRequestSchema, endPointResource)
+        const urlBackend = PassSearchParamsBetweenRequest(req.url as string, GetInfoCollaboratorRequestSchema, endPointResource)
 
         const dataReponse = await fetchWrapperSSR<Collaborator[]>(
             {
                 method: "GET",
                 input: urlBackend.href,
             })
+
         const response = await getAllInfoUser(dataReponse)
 
         return NextResponse.json(response)

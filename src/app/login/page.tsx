@@ -1,9 +1,20 @@
-'use client';
+import { FormLogin } from "../components/formLogin";
+
 export default function LoginPage() {
 
     return (
-        <div>
-            <h1 className="to-zinc-700 bg-green-400">Login</h1>
-        </div>
+        <main className="flex flex-col  justify-center items-center p-10  ">
+
+            <div className="flex flex-col gap-2 rounded-md p-4 shadow-md h-full ">
+                <div className="flex  items-end bg-gradient bg-orange-600 h-24 rounded-md p-2 ">
+
+                    <h1 className="text-white font-serif font-extrabold ">Login</h1>
+                </div>
+                <div className="flex ">
+                    <FormLogin />
+                </div>
+
+            </div>
+        </main>
     )
 }

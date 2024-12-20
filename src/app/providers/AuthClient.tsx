@@ -1,12 +1,12 @@
 'use client'
 
-import { useSession } from "next-auth/react";
 import { ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import LoadingDefault from "../components/LoadingDefault";
 import { ProviderUserCurrentContext } from "./ProviderUserCurrent";
-import useLoginModal from "../hooks/useLoginModal";
+import { useLoginModal } from "../hooks/useLoginModal";
 import LoginModal from "../components/modals/LoginModal";
+import { useSession } from "next-auth/react";
 
 interface AuthClientProps {
     children: ReactNode

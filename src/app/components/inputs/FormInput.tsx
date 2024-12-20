@@ -13,7 +13,7 @@ export type FormInputProps<TFormValues extends FieldValues> = {
     errors?: Partial<DeepMap<TFormValues, FieldError>>
 } & Omit<InputFieldProps, 'name'>
 
-const defaultStyle = 'flex w-full overflow-ellipsis'
+const defaultStyle = 'flex flex-col w-full overflow-ellipsis'
 const errorStyle = 'border-red-600 focus:ring-4 focus:ring-red-600 focus:ring-opacity-20 text-red-600'
 
 const FormInput = <TFormValues extends FieldValues>({
@@ -38,7 +38,7 @@ const FormInput = <TFormValues extends FieldValues>({
                 ref={ref}
                 {...(register && register(name, rules))}
                 {...props}
-                className={hasError ? errorStyle : defaultStyle}
+                className={hasError ? errorStyle : twMerge(defaultStyle, "border border-zinc-500 rounded-md")}
             />
 
             <ErrorMessage

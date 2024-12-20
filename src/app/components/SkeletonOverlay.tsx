@@ -10,13 +10,15 @@ const SkeletonOverlay: React.FC<SkeletonOverlayProps> = ({ children }) => {
                 relative 
                 before:absolute before:inset-0
                 before:-translate-x-full
-                before:animate-[shimmer_3s_infinite]
+                before:animate-shimmer
                 before:bg-gradient-to-r
                 before:from-transparent before:via-slate-200/80 before:to-transparent
                 isolate
                 overflow-hidden
                 before:border-t before:border-slate-200/10
-            ">
+            "
+            data-testid="skeleton_overlay"
+        >
             {children}
         </div>
     );

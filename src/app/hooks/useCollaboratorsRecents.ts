@@ -3,22 +3,23 @@
 import { UserInfo } from "../types/UserInfo"
 import useGerericSWRRequest from "./useGerericSWRRequest"
 
-interface UseCollaboratorsRecentsPros {
+export interface UseCollaboratorsRecentsProps {
     userId: string
 }
 
 const endPointResource = 'http://localhost:8080/api/userSimple/getInfoCollaboratorRecentsAllActivity?'
 
-export default function useCollaboratorsRecents({ userId }: UseCollaboratorsRecentsPros) {
-    console.log('log passou pelo use Collaborators');
-
-    return useGerericSWRRequest<UseCollaboratorsRecentsPros, UserInfo[]>({
+export function useCollaboratorsRecents({ userId }: UseCollaboratorsRecentsProps) {
+    return useGerericSWRRequest<UseCollaboratorsRecentsProps, UserInfo[]>({
         endpoint: endPointResource,
         init: {
             method: 'GET'
         },
         params: { userId: userId }
     })
-
-
 }
+
+const api = {
+    useCollaboratorsRecents
+}
+export default api;

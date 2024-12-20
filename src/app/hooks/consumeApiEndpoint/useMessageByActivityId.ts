@@ -11,7 +11,7 @@ const endpoint = '/api/userSimple/getMessageInActivity?'
 export default function useMessageByActivityId({ activityId }: useMessageByActivityIdProps) {
     return useGerericSWRRequest<useMessageByActivityIdProps, IMessageActivityProps[]>({
         endpoint: endpoint,
-        method: 'GET',
+        init: { method: 'GET' },
         params: { activityId: activityId }
     })
 }

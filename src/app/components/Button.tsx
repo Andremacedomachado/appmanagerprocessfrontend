@@ -1,14 +1,17 @@
 'use client'
 
+import { ButtonHTMLAttributes } from "react"
 import { IconType } from "react-icons"
 
-interface ButtonProps {
+export interface ButtonProps {
     label: string
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
     disabled?: boolean
     outline?: boolean
     small?: boolean
     icon?: IconType
+    id?: string
+    type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 const Button: React.FC<ButtonProps> = ({
     label,
@@ -16,10 +19,14 @@ const Button: React.FC<ButtonProps> = ({
     disabled,
     icon: Icon,
     outline,
-    small
+    small,
+    id,
+    type
 }) => {
     return (
         <button
+            type={type}
+            id={id}
             onClick={onClick}
             disabled={disabled}
             className={`

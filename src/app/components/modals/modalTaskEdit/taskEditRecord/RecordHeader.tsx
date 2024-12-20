@@ -2,7 +2,7 @@
 
 import useCheckUserLoggedById from "@/app/hooks/useCheckUserLoggedById";
 import { UserInfo } from "@/app/types/UserInfo";
-import { format, parseISO } from "date-fns";
+import { parseDateToMaskDate } from "@/app/utils/dateFnsUtils";
 import { TbPencil } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
@@ -18,13 +18,12 @@ const RecordHeader: React.FC<RecordHeaderProps> = ({ userinfo, publication_date 
     const permissionEdit = useCheckUserLoggedById({ userIdMatch: userinfo.id })
     return (
         <div className="group flex justify-end items-center gap-2 w-full p-1">
-            <div className={twMerge("flex-1", defaultPrettyText)}>
+            <div className={twMerge("flex-1", defaultPrettyText)} data-testid="autor_name">
                 {userinfo?.name}
-                {permissionEdit && <span> (você)</span>}
+                {permissionEdit && <span data-testid="owner_identifier"> (você)</span>}
             </div>
-            <div className={`${permissionEdit && "group-hover:hidden"} flex transition text-xs font-semibold text-zinc-600`}>
-                <span> {format(parseISO(publication_date.toString()), 'dd MMM yyyy')}</span>
-
+            <div className={`${permissionEdit && "group-hover:hidden"} flex transition text-xs font-semibold text-zinc-600`} data-testid="date_publication">
+                <span> {parseDateToMaskDate(publication_date)}</span>
             </div>
             {permissionEdit &&
                 <div className="group-hover:flex items-center hidden transition">

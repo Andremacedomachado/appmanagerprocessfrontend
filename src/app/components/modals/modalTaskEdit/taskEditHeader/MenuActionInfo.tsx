@@ -2,18 +2,26 @@
 import { BsPersonAdd, } from "react-icons/bs";
 import ButtonCircleOption from "./ButtonCircleOption";
 import ButtonCirclePerson from "./ButtonCirclePerson";
-import ButtonToggleStatus from "./ButtonToggleStatus";
+import ButtonToggleStatusActivity from "./ButtonToggleStatus";
 import ButtonOptionInfo from "./ButtonOpitonInfo";
 import ListRecentsCollabortorsByUser from "./ListRecentsCollaboratorsByUser";
-import useCollaboratorsRecents from "@/app/hooks/useCollaboratorsRecents";
+import { useCollaboratorsRecents } from "@/app/hooks/useCollaboratorsRecents";
+import { UserInfo } from "@/app/types/UserInfo";
+import { IActivityProps } from "@/app/types/entities/Activity";
 
-const MenuActionInfo = (params: { userId: string }) => {
+export interface MenuActionInfoProps {
+    userId: string,
+    collaboratorsInActivity?: UserInfo[],
+    collaboratorsRecents?: UserInfo[],
+    activity: IActivityProps
+}
 
-    const { data: collaboradorRecents, isLoading } = useCollaboratorsRecents({ userId: params.userId })
+const MenuActionInfo = ({ collaboratorsInActivity, collaboratorsRecents, userId, activity }: MenuActionInfoProps) => {
+
 
     return (
         <div className="flex flex-row justify-between gap-4 items-baseline px-4 pl-8 pb-2 w-full">
-            <ButtonToggleStatus />
+            <ButtonToggleStatusActivity userId={userId} activity={activity} />
 
             <div className="flex flex-row-reverse relative">
 
@@ -25,11 +33,11 @@ const MenuActionInfo = (params: { userId: string }) => {
                     classname="-ml-3"
                     size={10}
                     message="Adicionar novo colaborador"
-                    menuNode={<ListRecentsCollabortorsByUser />}
+                    menuNode={<ListRecentsCollabortorsByUser collaborators={collaboratorsRecents} />}
                 />
 
-                {/*  {!isLoading && collaboradorRecents &&
-                    collaboradorRecents.map((collaboratorInfo, idx) => (
+                {collaboratorsInActivity &&
+                    collaboratorsInActivity.map((collaboratorInfo, idx) => (
                         <ButtonCirclePerson
                             fullName={collaboratorInfo.name}
                             classname="-ml-3"
@@ -39,7 +47,7 @@ const MenuActionInfo = (params: { userId: string }) => {
                         />
 
                     ))
-                } */}
+                }
 
             </div>
 

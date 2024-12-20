@@ -1,5 +1,4 @@
-"use client"
-
+'use client'
 import MenuAction from "./taskEditMenu/MenuAction";
 import ButtonClosedModal from "./taskEditMenu/ButtonClosedModal";
 import PathProject from "./taskEditMenu/PathProject";
@@ -15,7 +14,7 @@ const TaskEditMenu = () => {
                     placement="bottom"
                 />
 
-                <MenuAction />
+                <MenuAction onClick={() => console.log('')} />
             </div>
             <div className="col-start-1 col-span-1 overflow-x-hidden">
                 <PathProject pathfolders={['setor', 'projeto', 'atividade']} />

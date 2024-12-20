@@ -4,7 +4,7 @@ import ButtonCirclePerson from "./ButtonCirclePerson";
 import ButtonTiggrerShowProfile from "./ButtonTiggrerShowProfile";
 import IconAllocated from "./IconAllocated";
 import SwapperLinkedInActivity from "./SwapperLinkedInActivity";
-import useCollaboratorsRecents from "@/app/hooks/useCollaboratorsRecents";
+import { useCollaboratorsRecents } from "@/app/hooks/useCollaboratorsRecents";
 import { UserInfo } from "@/app/types/UserInfo";
 import { ChangeEvent, useCallback, useState } from "react";
 import SearchItemMenuGeneral from "@/app/(pagesRequireAutentication)/[userId]/(dashboard)/userDashboard/v/li/components/menuListGeneral/SearchItemMenuGeneral";
@@ -42,24 +42,24 @@ interface CollaboradorRecentsProps {
     setor: string
 }
 
+export interface ListRecentsCollaboratorsByUserProps {
+    collaborators?: UserInfo[]
+}
 
 
-
-const ListRecentsCollabortorsByUser = () => {
-
-    const { data: collaboratorsRecents, isLoading } = useCollaboratorsRecents({ userId: '' })
-    const [filteredCollaborators, setFilteredCollaborators] = useState<UserInfo[] | undefined>(collaboratorsRecents)
+const ListRecentsCollabortorsByUser = ({ collaborators }: ListRecentsCollaboratorsByUserProps) => {
+    const [filteredCollaborators, setFilteredCollaborators] = useState<UserInfo[] | undefined>(collaborators)
     const [searchTextInput, setSearchTextInput] = useState<string>('')
 
     const handlerFilter = useCallback(() => {
-        if (!isLoading && collaboratorsRecents && searchTextInput) {
-            const filtered = fielterList<UserInfo, string>({ arr: collaboratorsRecents, searchParams: { "name": searchTextInput } })
+        if (collaborators && searchTextInput) {
+            const filtered = fielterList<UserInfo, string>({ arr: collaborators, searchParams: { "name": searchTextInput } })
             setFilteredCollaborators(filtered)
         }
         if (searchTextInput == '') {
-            setFilteredCollaborators(collaboratorsRecents)
+            setFilteredCollaborators(collaborators)
         }
-    }, [isLoading, collaboratorsRecents, searchTextInput])
+    }, [collaborators, searchTextInput])
 
     const handlerChangeInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setSearchTextInput(e.target.value)
@@ -68,7 +68,7 @@ const ListRecentsCollabortorsByUser = () => {
 
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 justify-center">
 
             <div className="border-b-2 py-1 border-slate-400 ">
                 <SearchItemMenuGeneral
@@ -78,8 +78,8 @@ const ListRecentsCollabortorsByUser = () => {
                 />
 
             </div>
-            <div className="flex flex-col gap-2" >
-                {!isLoading && filteredCollaborators &&
+            <div className="flex flex-col gap-2 justify-center" >
+                {filteredCollaborators &&
                     filteredCollaborators.map((collaborator, index) => (
                         <div key={collaborator.id} className="group flex justify-center items-center gap-2 hover:bg-slate-200 rounded-md p-1 ">
 
@@ -94,12 +94,20 @@ const ListRecentsCollabortorsByUser = () => {
 
 
                             <div className="flex-auto w-24 overflow-hidden whitespace-nowrap text-ellipsis">
-                                {collaborator.name}
+                                {collaborator.name.split(' ').map((word, index) => {
+                                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                                }).join(' ')}
                             </div>
                             <ButtonTiggrerShowProfile />
                             <IconAllocated size={16} />
                         </div>
                     ))}
+
+                {!filteredCollaborators || filteredCollaborators.length == 0 &&
+                    <p className="font-semibold text-center w-full h-full">
+                        Nenhum registro encontrado
+                    </p>
+                }
 
             </div>
         </div>

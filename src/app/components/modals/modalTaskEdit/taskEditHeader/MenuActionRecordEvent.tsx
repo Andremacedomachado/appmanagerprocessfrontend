@@ -1,70 +1,75 @@
 'use client'
-
-import { ChangeEvent, useCallback, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsCalendar2Check } from "react-icons/bs";
 import ButtonCircleOption from "./ButtonCircleOption";
 import MenuCalendar from "./MenuCalendar";
-import useActivityById from "@/app/hooks/consumeApiEndpoint/useActivityById";
 import { format, parseISO } from "date-fns";
+import { parseDateToMaskDate } from "@/app/utils/dateFnsUtils";
+import { IActivityProps } from "@/app/types/entities/Activity";
+import { StateActivity } from "@/app/lib/schemas";
+import { updateActivity, updateActivityWithNullDate } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
+import useToggle from "@/app/hooks/utils/useToggle";
+import { useCallback, useEffect, useState } from "react";
 
 interface MenuActionRecordEventProps {
-    startDate?: Date,
-    dueDate?: Date | null
+    activity: IActivityProps,
+    userIdCurrent: string
 }
 
-const MenuActionRecordEvent: React.FC<MenuActionRecordEventProps> = ({ dueDate, startDate }) => {
-    const { data: activityInfo, mutate } = useActivityById({ activityId: 'e274970d-f2d2-4b0c-a3b9-0dfb6a5ffe74' })
+const MenuActionRecordEvent: React.FC<MenuActionRecordEventProps> = ({ activity, userIdCurrent }) => {
+    const [dateFinally, setDateFinally] = useState<Date | undefined>()
 
-    const handlePushDateFinally = useCallback(async (value: Date) => {
+    const initialValue: StateActivity = { message: null, errors: {} }
+    const updatedActivityWithParameters = updateActivity.bind(null, activity.id).bind(null, userIdCurrent)
+    const [state, dispatch] = useFormState(updatedActivityWithParameters, initialValue)
 
-        if (activityInfo) {
-            await mutate({ ...activityInfo, due_date: value }, false)
-        }
-
-
-    }, [activityInfo, mutate])
-    const handleCleanDate = useCallback(() => {
-        if (activityInfo) {
-            mutate({ ...activityInfo, due_date: undefined }, false)
-        }
-
-    }, [mutate, activityInfo])
+    useEffect(() => {
+        setDateFinally(activity.due_date ? activity.due_date : undefined)
+    }, [activity.due_date])
+    const handlerClearDateFinally = useCallback(() => {
+        updateActivityWithNullDate(activity.id, userIdCurrent, 'due_date')
+        setDateFinally(undefined)
+    }, [activity.id, userIdCurrent])
     return (
-        <div className="flex justify-start items-center divide-x-2 ">
-            <div className="flex flex-col px-2 text-xs font-semibold  " onClick={() => { console.log(activityInfo?.start_date) }
-            }>
+        <div className="flex justify-center items-center divide-x-2 py-1">
+            <div className="flex flex-col px-2 text-xs font-semibold  ">
                 <span className=" text-slate-400">
                     CRIADO
                 </span>
                 <span>
-                    {activityInfo?.start_date ? format(parseISO(activityInfo.start_date.toString()), 'dd-MM-yyyy') : undefined}
+                    {activity?.created_at ? parseDateToMaskDate(activity.created_at) : undefined}
                 </span>
             </div>
-            <div className="flex flex-col px-2 text-xs font-semibold">
-                {activityInfo?.due_date && <>
-
-                    <span className="text-slate-400">
-                        DATA FINAL
-                    </span>
-
-                    <span className="flex gap-1 justify-start items-baseline ">
-                        <AiFillCloseCircle size={10} onClick={handleCleanDate} className="hover:text-orange-600 transition" />
-                        {format(activityInfo.due_date, 'dd-MM-yyyy')}
-                    </span>
-                </>
+            <div className="flex gap-2  px-2 text-xs font-semibold">
+                {
+                    dateFinally &&
+                    <div className={`flex flex-col justify-center items-baseline`}>
+                        <span className="text-slate-400">
+                            DATA FINAL
+                        </span>
+                        <span className="flex gap-1 justify-start items-baseline  ">
+                            <AiFillCloseCircle size={10} className="hover:text-orange-600 transition" onClick={handlerClearDateFinally} />
+                            {parseDateToMaskDate(dateFinally)}
+                        </span>
+                    </div>
                 }
 
-                {!activityInfo?.due_date &&
+
+
+                <div className={'flex'}>
+
                     <ButtonCircleOption
                         icon={BsCalendar2Check}
-                        onClick={(e) => { e.preventDefault }}
+                        onClick={(e) => { }}
                         message="Data Final"
                         menuNode={<MenuCalendar
-                            setState={handlePushDateFinally}
+                            defaultValue={activity.due_date ? activity.due_date : undefined}
+                            dispatch={dispatch}
+                            handlerOnSubmit={() => { }}
                         />}
                     />
-                }
+                </div>
             </div>
 
         </div>

@@ -1,4 +1,4 @@
-'use client'
+
 import { BsArrowRightShort } from "react-icons/bs";
 
 interface PathProjectProps {

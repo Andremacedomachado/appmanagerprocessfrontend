@@ -14,7 +14,7 @@ import Input from '../inputs/Input';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
 import useRegisterModal from '../../hooks/useRegisterModal';
-import useLoginModal from '../../hooks/useLoginModal';
+import { useLoginModal } from '../../hooks/useLoginModal';
 import { useLoading } from '@/app/hooks/utils/useLoading';
 import { useCallback } from 'react';
 const LoginModal = () => {
@@ -22,7 +22,6 @@ const LoginModal = () => {
     const loginModal = useLoginModal();
     const loadManager = useLoading(false);
     const router = useRouter()
-    const { data: userInfo, update } = useSession()
     const {
         register,
         handleSubmit,
@@ -57,10 +56,7 @@ const LoginModal = () => {
         }
         loadManager.setLoaded()
 
-        if (userInfo?.user.id) {
-            console.log('userLogged::', userInfo)
 
-        }
 
         router.push(`/redirectautenticated`)
     }

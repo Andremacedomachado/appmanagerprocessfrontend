@@ -15,8 +15,9 @@ export interface IActivityProps {
     created_at?: Date,
     updated_at?: Date,
     progress_status?: STATUSACTIVITY,
-    due_date?: Date,
+    due_date?: Date | null,
     start_date?: Date,
+    conclusion_date?: Date | null,
     responsible_id: string,
     type_node?: TYPENODE
 }

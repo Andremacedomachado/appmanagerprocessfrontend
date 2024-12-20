@@ -1,16 +1,13 @@
-'use client';
+'use client'
 import Image from "next/image"
 
-const Avatar = () => {
+const Avatar = ({ size = 30, src = '/images/placeholder.jpg' }: { size?: number, src?: string }) => {
     return (
         <Image
-            className="
-                rounded-full
-            "
-            height="30"
-            width="30"
+            height={size}
+            width={size}
             alt="avatar"
-            src='/images/placeholder.jpg'
+            src={src}
         />
     )
 }

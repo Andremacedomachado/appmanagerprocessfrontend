@@ -12,7 +12,7 @@ const ButtonOption: FC<ButtonOptionProps> = ({ onClick, className, children, typ
         <button
             {...props}
             onClick={onClick}
-            className={twMerge('flex bg-orange-600 rounded-md h-fit text-white font-semibold px-1 ', className)}
+            className={twMerge('flex bg-orange-600 shadow-md rounded-md h-fit text-white font-semibold px-1 transition hover:bg-orange-400', className)}
         >{children}</button>)
 }
 

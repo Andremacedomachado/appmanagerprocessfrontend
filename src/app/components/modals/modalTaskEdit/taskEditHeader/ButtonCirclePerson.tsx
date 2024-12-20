@@ -51,8 +51,12 @@ const ButtonCirclePerson: FC<ButtonCirclePersonProps> = ({ fullName, classname, 
     const keys = Object.keys(Colors)
     const colorCurrent = colorIndex ? Colors[keys[colorIndex] as ColorsKeyType] : undefined
     useEffect(() => {
-        const initials = fullName.match(/(\b\S)?/g)?.join("").match(/(^\S|\S$)?/g)?.join("").toUpperCase()
-        setNameInitials(initials)
+        console.log(fullName)
+        if (fullName) {
+
+            const initials = fullName.match(/(\b\S)?/g)?.join("").match(/(^\S|\S$)?/g)?.join("").toUpperCase()
+            setNameInitials(initials)
+        }
     }, [fullName])
 
     return (
@@ -60,6 +64,7 @@ const ButtonCirclePerson: FC<ButtonCirclePersonProps> = ({ fullName, classname, 
             message={fullName}
             trigger={
                 <div
+                    data-testid='button-circle-person'
                     className={twMerge([`  relative flex justify-center items-center overflow-hidden rounded-full  p-1 cursor-pointer text-white bg-black h-10 w-10  hover:text-orange-600 hover:z-10 transition`, classname, colorCurrent, propsSize])}
                     style={style}
                 >

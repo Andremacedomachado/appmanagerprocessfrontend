@@ -11,7 +11,7 @@ interface TurnDisableInputProps {
 const TurnDisableInput: FC<TurnDisableInputProps> = ({ children, disable }) => {
     return (
         <div className="flex-1">
-            <fieldset disabled={disable}>
+            <fieldset disabled={disable} className="flex flex-1">
                 {children}
             </fieldset>
         </div>

@@ -29,6 +29,7 @@ const FormUpdateDataPartial: FC<FormUpdateDataPartialProps<FieldValues>> = ({ in
         register,
         formState: { errors },
         setValue,
+        getFieldState,
 
         handleSubmit,
     } = useForm<FormUpdateDataProps>({ defaultValues: { field: initialValue } })
@@ -42,12 +43,15 @@ const FormUpdateDataPartial: FC<FormUpdateDataPartialProps<FieldValues>> = ({ in
     return (
         <form
             onSubmit={handleSubmit((data) => {
-                setValue('field', data.field)
-                actionSubmit(data)
+                if (getFieldState('field').isDirty && !getFieldState('field').invalid) {
+
+                    setValue('field', data.field)
+                    actionSubmit(data)
+                }
             })}
             className="flex flex-row gap-1 w-full "
         >
-            <TurnDisableInput disable={state}>
+            <TurnDisableInput disable={!state}>
                 {
                     <FormInput<FormUpdateDataProps>
                         id={"field"}
@@ -58,14 +62,20 @@ const FormUpdateDataPartial: FC<FormUpdateDataPartialProps<FieldValues>> = ({ in
                         register={register}
                         rules={rules}
                         errors={errors}
-                        className={twMerge(!state ? " border border-zinc-500 rounded-md" : "", inputStyle)}
+                        className={inputStyle}
                     />
                 }
 
             </TurnDisableInput>
             <ButtonOption
+                onClick={() => {
+                    if (!errors.field) {
+                        toggleState()
+
+                    }
+                }}
                 type="submit"
-                className={`${state && "hidden"} mx-auto transition duration-200`}>Save</ButtonOption>
+                className={`${!state && "hidden"} mx-auto transition duration-200`}>Salvar</ButtonOption>
             <ButtonOption onClick={(e) => {
                 e.preventDefault()
                 toggleState()

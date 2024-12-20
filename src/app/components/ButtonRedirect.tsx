@@ -5,11 +5,10 @@ import Link from "next/link";
 
 interface ButtonRedirectProps {
     label: string
-    endPoint: string
+    url: string
 }
 
-const ButtonRedirect: React.FC<ButtonRedirectProps> = ({ label, endPoint }) => {
-    const url = usePathname() + endPoint
+const ButtonRedirect: React.FC<ButtonRedirectProps> = ({ label, url }) => {
     return (
 
         <Link href={{

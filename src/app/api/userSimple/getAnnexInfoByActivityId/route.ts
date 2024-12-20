@@ -14,7 +14,8 @@ const GetAnnexInfoByActivityIdRequestSchema = z.object({
 
 export async function GET(request: NextApiRequest) {
     try {
-        const urlBackend = PassSearchParamsBetweenRequest(request, GetAnnexInfoByActivityIdRequestSchema, endpoint)
+        const urlOrigin = request.url ? request.url : ''
+        const urlBackend = PassSearchParamsBetweenRequest(urlOrigin, GetAnnexInfoByActivityIdRequestSchema, endpoint)
 
         const responseData = await fetchWrapperSSR<IAnnexActivityProps[]>({
             method: 'GET',

@@ -5,7 +5,7 @@ import Avatar from '../Avatar';
 import { useCallback } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '../../hooks/useRegisterModal';
-import useLoginModal from '../../hooks/useLoginModal';
+import { useLoginModal } from '../../hooks/useLoginModal';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
@@ -47,14 +47,14 @@ const UserMenu: React.FC<UserMenuProps> = () => {
     const handleRedirectRoles = useCallback(() => {
         isOpen.toggleState()
         if (data?.user) {
-            router.replace(`/${data?.user.id}/listingRoles`)
+            router.push(`/${data?.user.id}/listingRoles`)
         }
         console.log(data?.user)
 
     }, [isOpen, data?.user, router])
     return (
         <div className="relative">
-            <div className="flex flex-row items-center gap-3">
+            <div className="flex flex-row items-center justify-end gap-3 ">
                 <div
                     onClick={() => { }}
                     className="
@@ -89,6 +89,7 @@ const UserMenu: React.FC<UserMenuProps> = () => {
                         hover:shadow-md
                         transition
                     "
+                    data-testid='button_menu_show_option_user_profile'
                 >
                     <AiOutlineMenu />
                     <div>
@@ -143,6 +144,7 @@ const UserMenu: React.FC<UserMenuProps> = () => {
                                 <MenuItem
                                     onClick={handleLogin}
                                     label='Login'
+                                    data-testId='button_menu_show_modal_login'
                                 />
                                 <MenuItem
                                     onClick={registerModal.onOpen}

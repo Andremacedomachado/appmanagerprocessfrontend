@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from 'react-icons/io'
 import Button from "../Button";
 
-interface ModalProps {
+export interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: () => void;
@@ -97,6 +97,7 @@ const Modal: React.FC<ModalProps> = ({
 
                     {/* Content */}
                     <div
+                        data-testid="control_show_modal"
                         className={`
                             translate
                             duration-300
@@ -136,6 +137,7 @@ const Modal: React.FC<ModalProps> = ({
                                 "
                             >
                                 <button
+                                    data-testid='button-close'
                                     onClick={handleClose}
                                     className="
                                         p-1
@@ -179,6 +181,7 @@ const Modal: React.FC<ModalProps> = ({
                                         disabled={disabled}
                                         label={actionLabel}
                                         onClick={handleSubmit}
+                                        id='button_submit_modal'
                                     />
                                 </div>
                                 {footer}

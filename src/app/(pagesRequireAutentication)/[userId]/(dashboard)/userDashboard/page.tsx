@@ -9,7 +9,7 @@ const UserDashBoardPage = async ({ params }: { params: { userId: string } }) => 
                 className="p-2 bg-transparent bg-opacity-10 shadow-md"
             >
                 <Heading title="Listagem suas atividades" subtitle="todas as atividades são organizadas por processos e atividades especificas" />
-                <ButtonRedirect label="atividades" endPoint={'/v/li'} />
+                <ButtonRedirect label="atividades" urk={'/v/li'} />
             </div>
         </Container>
     )

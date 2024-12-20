@@ -2,20 +2,15 @@
 import { useAnnexByActivityId } from "@/app/hooks/consumeApiEndpoint/useAnnexByActivityId";
 import AnnexActivityTable from "./AnnexActivityTable";
 import LoadingTable from "./LoadingTable";
+import { IAnnexActivityProps } from "@/app/types/entities/AnnexActivity";
 
 interface AnnexActivityInfoProps {
-    activityId: string
+    annexs?: IAnnexActivityProps[]
 }
 
 
-const AnnexActivityInfo: React.FC<AnnexActivityInfoProps> = ({ activityId }) => {
-    const { data: annexsInfo, error, isLoading, isValidating, mutate } = useAnnexByActivityId({ activityId });
-
-    if (!annexsInfo || isLoading) {
-        return <LoadingTable dimension="my-2 mx-1 h-5 w-5/6" />
-    }
-
-    return <AnnexActivityTable annexs={annexsInfo} />
+const AnnexActivityInfo: React.FC<AnnexActivityInfoProps> = ({ annexs }) => {
+    return <AnnexActivityTable annexs={annexs} />
 }
 
 export default AnnexActivityInfo;

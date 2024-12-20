@@ -10,11 +10,13 @@ function classNames(...classes: any[]) {
 }
 
 interface MenuCalendarProps {
-    setState: (value: Date) => void
+    defaultValue?: Date,
+    dispatch: (payload: FormData) => void
+    handlerOnSubmit: () => void
 }
-const MenuCalendar: React.FC<MenuCalendarProps> = ({ setState }) => {
+const MenuCalendar: React.FC<MenuCalendarProps> = ({ dispatch, handlerOnSubmit, defaultValue }) => {
 
-    let today = startOfToday()
+    let today = defaultValue ? new Date(defaultValue) : startOfToday()
     let [selectedDay, setSelectedDay] = useState(today)
     let [currentMoth, setCurrentMonth] = useState(format(today, "MMM-yyyy"))
     const [inputDate, setInputDate] = useState(format(selectedDay, 'dd-MM-yyyy'))
@@ -125,16 +127,21 @@ const MenuCalendar: React.FC<MenuCalendarProps> = ({ setState }) => {
                     }
                 }
                 } />
-                <Button
-                    label="salvar"
-                    onClick={() => {
-                        setState(selectedDay)
 
-                    }}
+                <form action={dispatch}>
 
-                    small
+                    <input type="hidden" name="due_date" value={selectedDay.toISOString()} />
 
-                />
+                    <Button
+                        type="submit"
+                        label="salvar"
+                        onClick={(e) => {
+                            console.log(selectedDay)
+                            handlerOnSubmit()
+                        }}
+                        small
+                    />
+                </form>
             </div>
         </div>
     );

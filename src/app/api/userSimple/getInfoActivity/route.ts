@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 
-const endPointResource = '/activity/id?'
+const endPointResource = '/activity/id'
 
 const GetInfoActivityRequestSchema = z.object({
     activityId: z.string().uuid()
@@ -14,7 +14,8 @@ const GetInfoActivityRequestSchema = z.object({
 
 export async function GET(req: NextApiRequest) {
     try {
-        const urlBackend = PassSearchParamsBetweenRequest(req, GetInfoActivityRequestSchema, endPointResource)
+        const urlOrigin = req.url ? req.url : ''
+        const urlBackend = PassSearchParamsBetweenRequest(urlOrigin, GetInfoActivityRequestSchema, endPointResource)
         const dataReponse = await fetchWrapperSSR<ActivityInfo>(
             {
                 method: 'GET',

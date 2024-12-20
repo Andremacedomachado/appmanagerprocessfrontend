@@ -5,6 +5,7 @@ const ButtonClosedModal = () => {
     const { setOpen } = useDialogContext()
     return (
         <div
+            data-testid="button_close"
             onClick={() => setOpen(false)}
             className="rounded-md flex justify-center items-center w-8 h-8 bg-slate-50 shadow-sm">
             <MdClose size={20} />

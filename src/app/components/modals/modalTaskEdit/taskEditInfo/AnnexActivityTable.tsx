@@ -4,7 +4,7 @@ import { IAnnexActivityProps } from "@/app/types/entities/AnnexActivity";
 import AnnexActivityRecord from "./AnnexActivityRecord";
 
 interface AnnexActivityTableProps {
-    annexs: IAnnexActivityProps[]
+    annexs?: IAnnexActivityProps[]
 }
 const AnnexActivityTable: React.FC<AnnexActivityTableProps> = ({ annexs }) => {
     return (
@@ -23,9 +23,13 @@ const AnnexActivityTable: React.FC<AnnexActivityTableProps> = ({ annexs }) => {
                 <div className=" w-20 overflow-hidden overflow-ellipsis truncate">Usuario</div>
             </div>
 
-            {annexs.map((annex, idx) => (
+            {annexs?.map((annex, idx) => (
                 <AnnexActivityRecord annex={annex} key={idx} />
             ))}
+
+            {(!annexs || annexs?.length == 0) && <div className="text-center ">
+                Sem registros encontrados
+            </div>}
 
         </div>
     );

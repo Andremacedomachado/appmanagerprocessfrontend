@@ -15,7 +15,7 @@ type UseAnnexByActivityIdRequestType = z.infer<typeof UseAnnexByActivityIdReques
 
 export function useAnnexByActivityId({ activityId }: UseAnnexByActivityIdRequestType) {
     return useGerericSWRRequest<UseAnnexByActivityIdRequestType, IAnnexActivityProps[]>({
-        method: "GET",
+        init: { method: 'GET' },
         endpoint,
         params: { activityId }
     })

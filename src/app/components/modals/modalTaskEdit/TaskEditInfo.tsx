@@ -1,4 +1,3 @@
-"use client"
 
 interface TaskEditInfoProps {
     title?: string,

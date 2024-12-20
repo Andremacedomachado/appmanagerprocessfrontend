@@ -4,7 +4,7 @@ import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const endpoint = '/messageActivity/activityId?'
+const endpoint = '/messageActivity/activityId'
 
 const GetMessageInActivitySchemaRequest = z.object({
     activityId: z.string().uuid()
@@ -12,7 +12,9 @@ const GetMessageInActivitySchemaRequest = z.object({
 
 export async function GET(request: NextApiRequest) {
     try {
-        const urlBackend = PassSearchParamsBetweenRequest(request, GetMessageInActivitySchemaRequest, endpoint)
+
+        const urlOrigin = request.url ? request.url : ''
+        const urlBackend = PassSearchParamsBetweenRequest(urlOrigin, GetMessageInActivitySchemaRequest, endpoint)
 
         const data = await fetchWrapperSSR({
             method: 'GET',

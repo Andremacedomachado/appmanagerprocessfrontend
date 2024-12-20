@@ -17,12 +17,26 @@ module.exports = {
                 '75vh': '75vh'
             }
         },
+        
         keyframes: {
             "shimmer": {
                 "100%": {
                     "transform": "translateX(100%)",
                 },
             },
+            "spin":{
+                from: {
+                    "transform": "rotate(0deg)"
+                  },
+                  to: {
+                    "transform": "rotate(360deg)"
+                  }
+            }
+        
+        },
+        animation:{
+            shimmer:'shimmer 3s infinite',
+            spin:'spin 2s infinite'
         }
     },
     plugins: [],

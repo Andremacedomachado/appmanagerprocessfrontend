@@ -5,7 +5,7 @@ import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-const endPoint = '/user?'
+const endPoint = '/user'
 
 const GetUserRequstSchema = z.object({
     userId: z.string().uuid()
@@ -13,20 +13,15 @@ const GetUserRequstSchema = z.object({
 
 export async function GET(req: NextRequest) {
     try {
-        const url = PassSearchParamsBetweenRequest(req, GetUserRequstSchema, endPoint)
-        const responseApi = await fetch(url, {
-            method: 'GET',
-            headers: req.headers
+        const url = PassSearchParamsBetweenRequest(req.url, GetUserRequstSchema, endPoint)
+
+        const responseApi = await fetchWrapperSSR({
+            input: url,
+            method: 'GET'
         });
-        const data = await responseApi.json()
 
 
-        if (!responseApi.ok) {
-            return NextResponse.json(data, { status: responseApi.status })
-        }
-
-
-        return NextResponse.json(data);
+        return NextResponse.json(responseApi);
     } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json({ message: error.message, stack: error.stack }, { status: 400 })

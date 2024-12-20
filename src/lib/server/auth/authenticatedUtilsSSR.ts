@@ -2,7 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getServerSession } from "next-auth"
 
 
-export async function checkAuthenticatedOnRequest() {
+export default async function checkAuthenticatedOnRequest() {
     const session = await getServerSession(authOptions)
     if (!session) {
         throw new Error('authorized')

@@ -1,9 +1,14 @@
-'use client'
+
 import { ImSpinner8 } from 'react-icons/im'
-export default function LoadingDefault() {
+export interface LoadingDefaultProps {
+    size?: number
+}
+
+export default function LoadingDefault({ size = 50 }: LoadingDefaultProps) {
     return (
-        <div className='flex justify-center items-center w-screen h-[20vh] animate-spin text-orange-500'>
-            <ImSpinner8 size={50}></ImSpinner8>
+        <div role="status" className='flex justify-center items-center gap-1 text-orange-400' data-testid="load_default">
+            <ImSpinner8 size={size} className='animate-spin' />
+            <span className=" font-bold text-xs ">Loading...</span>
         </div>
     )
 }

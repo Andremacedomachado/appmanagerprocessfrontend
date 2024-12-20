@@ -1,9 +1,6 @@
+import { SessionProvider } from 'next-auth/react'
 import './globals.css'
-import RegisterModal from './components/modals/RegisterModal'
-import LoginModal from './components/modals/LoginModal'
-import ToasterProvider from './providers/ToasterProvider'
-import Providers from './providers/Providers'
-import NavBar from './components/navbar/NavBar'
+import { auth } from '../../auth'
 
 export const metadata = {
     title: 'App manager project',
@@ -18,18 +15,12 @@ export default async function RootLayout({
     params: { userId: string }
 }) {
 
+    const session = await auth();
+
     return (
         <html lang="pt-br">
-            <body>
-                <Providers>
-                    <ToasterProvider />
-                    <LoginModal />
-                    <RegisterModal />
-                    <NavBar />
-                    <div className="pt-28 overflow-hidden">
-                        {children}
-                    </div>
-                </Providers>
+            <body >
+                <SessionProvider session={session} >{children}</SessionProvider>
             </body>
         </html>
     )

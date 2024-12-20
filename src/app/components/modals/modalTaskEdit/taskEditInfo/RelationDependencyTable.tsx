@@ -1,15 +1,16 @@
 'use client'
 
 import { IRecordDependencyProps } from "@/app/types/entities/RecordDependency";
-import { IActivityRecordDistinctProps } from "./RelationDependencyInfo";
 import RelationDependencyRecord from "./RelationDependencyRecord";
+import { IActivityProps } from "@/app/types/entities/Activity";
 
 interface RelationDependencyTableProps {
-    data: IActivityRecordDistinctProps[],
+    activities?: IActivityProps[],
+    recordsRelation?: IRecordDependencyProps[],
 
 }
 
-const RelationDependencyTable: React.FC<RelationDependencyTableProps> = ({ data }) => {
+const RelationDependencyTable: React.FC<RelationDependencyTableProps> = ({ activities, recordsRelation }) => {
 
     return (
         <div
@@ -27,9 +28,13 @@ const RelationDependencyTable: React.FC<RelationDependencyTableProps> = ({ data 
                 <div className=" w-20 overflow-hidden overflow-ellipsis truncate">Data de vinculo</div>
             </div>
 
-            {data.map((record, idx) => (
-                <RelationDependencyRecord record={record} key={idx} />
+            {activities && recordsRelation && activities?.map((activity, idx) => (
+                <RelationDependencyRecord record={recordsRelation[idx]} activity={activity} key={idx} />
             ))}
+
+            {(!activities || activities.length == 0) && <div className="text-center ">
+                Sem registros encontrados
+            </div>}
 
         </div>
     );
